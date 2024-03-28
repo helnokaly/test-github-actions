@@ -1,0 +1,26 @@
+name: On-Demand Workflow
+
+on:
+  workflow_dispatch: # This event allows manual triggering of the workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Make changes
+      run: |
+        # Add your commands here to make changes
+        echo "Making changes to the code" >> file.txt
+        
+    # Create a PR using the "create-pull-request" action
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }} # This allows the action to authenticate with GitHub
+        commit-message: 'chore: Automated changes'
+        title: 'Automated changes'
+        body: 'This PR was created automatically.'
